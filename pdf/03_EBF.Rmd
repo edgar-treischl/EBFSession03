@@ -1,0 +1,643 @@
+---
+title: "EBF 03"
+subtitle: "Zentrale Inhalte der EBF"
+author: "Dr. Edgar Treischl"
+#institute: "RStudio, PBC"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    seal: false
+    #chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: [center, middle]
+header-includes:
+- \usepackage{animate}
+---
+
+
+```{r, include=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(gapminder)
+library(viridis)
+library(ggforce)
+library(ggrepel)
+library(concaveman)
+
+
+df_gp <- gapminder %>% 
+  filter (year == 2007)
+
+setwd("C:/Users/gu99mywo/Dropbox/Lehre/Bildung/Vorlesung Bildung EF/SoSe2021/Folien/03_Zentrale_Befunde")
+
+library(readxl)
+leaky_pipeline <- read_excel("leaky_pipeline.xlsx")
+
+
+leaky_pipeline$Gruppe <- factor(leaky_pipeline$Gruppe, levels = c("Studienanfänger", "Studierende",
+                                                                  "Absolventen", "Promotionen", 
+                                                                  "Habilitationen", "C4-Professoren"))
+
+
+```
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+```
+
+```{r best-features, echo=FALSE}
+#search
+#xaringanExtra::use_search(show_icon = TRUE, position = "top-right")
+
+#xaringanExtra::style_search(match_background = "black",
+                            #input_background = "white",
+                            #input_border = "black",
+                            #match_current_background = "green")
+
+xaringanExtra::use_tachyons()
+xaringanExtra::use_tile_view()
+xaringanExtra::use_webcam()
+
+```
+
+class: center, middle
+
+# Vorlesung: Empirische Bildungsforschung
+### Sitzung 3: Zentrale Inhalte der EBF
+
+
+
+.large[Dr. Edgar Treischl] <br>
+.large[Last update: `r Sys.Date()`]
+
+
+<br>
+<br>
+<br>
+<p align="left" style="font-size:75%;">This presentation is licensed under a CC-BY-NC 4.0 license.
+You may copy, distribute, and use the slides in your own work, as long
+as you give attribution to the original author on each slide that you use.
+Commercial use of the contents of these slides is not allowed.</p>
+<br>
+<img align="right" src="by-nceu.png" width="150px"/>
+
+---
+
+## Ablauf
+
+### 1. Wirkung von Bildung
+### 2. Ziele der Bildungsforschung
+### 3. Ausgestaltung des Bildungssystems
+### 4. Messung von Bildung
+
+---
+
+
+# 1. Wirkung von Bildung
+## Bildung und Wirtschaftswachstum
+
+<img src="media/p4.png" style="width: 80%"  />
+<p style="font-size:75%;">Abbildung: BPB</p> 
+
+
+
+---
+
+
+## Bildung und Einkommen
+
+<img src="media/p5.png" style="width: 100%"  />
+<p style="font-size:75%;">Abbildung: Hout 2012: 381</p> 
+
+<p style="font-size:125%;"> Dabei geht es nicht nur darum, dass man mehr Geld zur Verfügung hat, sondern um Lebenschancen.</p> 
+
+
+
+
+
+
+
+
+---
+
+## Einkommen und Lebenserwartung
+
+```{r, echo=FALSE, fig.width=10 }
+
+ggplot(df_gp, aes(x= gdpPercap, y=lifeExp, color=continent)) +
+  geom_point(size=3)+
+  theme_minimal(base_size = 18)+
+  scale_color_viridis(discrete = TRUE, name = "Region", option = "viridis")+
+  labs(x = "GDP per capita",                
+       y = "Life expectancy (2007)",
+       caption = "Daten: Gapminder")+
+  guides(color = guide_legend(override.aes = list(size = 4),
+                              reverse=TRUE))
+
+
+```
+
+
+
+---
+
+## Einkommen und Lebenserwartung (Cluster)
+
+```{r, echo=FALSE, fig.width=10}
+
+
+ggplot(df_gp, aes(x= gdpPercap, y=lifeExp, color=continent)) +
+  geom_point(size=3)+
+  geom_mark_rect(show.legend = FALSE,
+                 size = 1.5) +
+  theme_minimal(base_size = 18)+
+  scale_color_viridis(discrete = TRUE, name = "Region", option = "viridis")+
+  labs(x = "GDP per capita",                
+       y = "Life expectancy (2007)",
+       caption = "Daten: Gapminder")+
+  guides(color = guide_legend(override.aes = list(size = 4),
+                              reverse=TRUE))
+
+
+```
+
+
+---
+
+## Gapminder Bubble Charts
+
+```{r, echo=FALSE, fig.width=10}
+
+df_gp %>%
+  mutate(pop=pop/1000000) %>%
+  arrange(desc(pop)) %>%
+  ggplot(aes(x = log(gdpPercap), 
+           y = lifeExp,                          
+           size = pop,
+           color = continent)) +
+  geom_point(alpha = 0.7)+
+  scale_size(range = c(.1, 25), guide = "none")+
+  #scale_x_continuous(limits = c(5, 12.5)) +
+  scale_y_continuous(limits = c(30, 90))+
+  scale_color_viridis(
+    discrete = TRUE, name = "Region", option = "viridis")+
+  labs(x = "GDP per capita (Log)",                
+       y = "Life expectancy (2007)",
+       caption = "Daten: Gapminder") + 
+  theme_minimal(base_size = 18)+
+  guides(color = guide_legend(override.aes = list(size = 4),
+                              reverse=TRUE))
+
+
+
+```
+
+---
+### Some Animation
+
+<img src="media/gapminder.gif" style="width: 80%"  />
+<p style="font-size:75%;">Abbildung: BPB</p> 
+
+
+
+---
+
+## Bildung und Arbeitslosigkeit
+
+<img src="media/p2.png" style="width: 100%"  />
+<p style="font-size:75%;"> Abbildung: IAB, Qualifikationsspezifische Arbeitslosenquoten 2017</p> 
+
+
+
+---
+
+## Nicht monetäre Aspekte
+
+
+<img src="media/p3.png" style="width: 100%"  />
+<p style="font-size:75%;">Abbildung: Bildungsbericht 2016: 213</p> 
+
+
+
+---
+
+## Beispiel: Geschlecht und Bildungserfolg
+
+<img src="media/f1.png" style="width: 90%"  />
+
+
+
+---
+
+# 2. Ziele der Bildungsforschung
+
+### - Systematische Beschreibung eines Forschungsgegenstandes
+### - Erklärung des Forschungsgegenstand
+### - Erklärungen sind Aussagen über kausale Ursache und Wirkungszusammenhänge
+### - Prognosen und Handlungsempfehlungen über den Forschungsgegenstand
+
+
+---
+
+## Beispiel Zugang zu Hochschulbildung
+
+- Auf den kommenden Seiten wollen wir die Ziele der Bildungsforschung am Beispiel Mädchen und Frauen in der Bildung erarbeiten.
+- Auch heute noch hat das Geschlecht der Schülerinnen und Schüler eine Auswirkung auf Bildungserfolg.
+- Seit dem Ende des 19. Jahrhunderts wurde an deutschen Universitäten allmählich die Immatrikulation von Frauen erlaubt
+- Bis weit in die Mitte des 20. Jahrhunderts hatten Mädchen und Frauen nicht die gleichen Bildungschancen wie Männer.
+- Dies hat ein idealtypisches Bild geprägt: Besonders benachteiligt waren damals die Arbeitermädchen vom Lande.
+
+
+---
+
+## Aus heutiger Sicht sind Frauen als Bildungsgewinner zu bezeichnen:
+
+### - Als Bildungsverlierer gelten hingegen Jungs mit Migrationshintergrund.
+### - Frauen haben die Jungs bei den Bildungsabschlüssen "überflügelt" 
+### - Dies zeigt sich beim Hochschulzugang
+
+
+
+---
+
+## Studienberechtigte
+
+<img src="media/f2.png" style="width: 80%"  />
+<p style="font-size:75%;">Abbildung: Lörz & Schindler 2011</p> 
+
+
+
+---
+
+## Studierende
+
+<img src="media/f3.png" style="width: 100%"  />
+<p style="font-size:70%;">Abbildung: bpb.de</p> 
+
+
+
+
+---
+class: middle, center
+
+
+<p style="font-size:125%;">Somit lässt sich zwar eine positive Entwicklung in Deutschland und vielen westlichen Ländern hinsichtlich des Zugangs zu Bildung zeigen.</p> 
+
+<p style="font-size:125%;">Das heißt jedoch nicht, dass Mädchen weltweit die gleichen Chancen haben. Oder dass das Geschlecht unwichtig für die Bildungsforschung geworden ist. Denn wie bezahlt machen sich die Bildungsabschlüsse der Frauen in Deutschland? Karriere in der ...?</p> 
+
+
+### Wissenschaft?
+### Politik?
+### Wirtschaft?
+
+
+---
+
+## Wissenschaft: Leaky Pipeline
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=10}
+
+
+
+palette <- c("#29303B", "#0057AD", "#C69472", "#8A8FA1", "#C70C0B")
+
+
+ggplot(leaky_pipeline, aes(x=Gruppe, y=`2019`, group = Sex, color = Sex)) +
+  geom_line(size = 1) +
+  geom_point(size = 2)+
+  #geom_smooth(method = "lm", formula = y ~ x)+
+  theme_minimal(base_size = 18)+
+  scale_color_viridis(discrete = TRUE, name = "EBF Klausur", option = "viridis")+
+  geom_label(data = leaky_pipeline %>% filter(Gruppe == "Habilitationen"),
+             aes(label = Sex, color = Sex),
+             #hjust = 1.0,
+             #vjust = 0.5,
+             fontface = "bold",
+             size = 5.5)+
+  labs(caption = "Daten: destatis.de",
+       y = "Anteile nach akademischer Laufbahn (2019)")+
+  theme(legend.position="none")+
+  scale_color_manual(values = palette)
+
+```
+
+
+---
+
+## Politik
+
+<img src="media/f6.png" style="width: 90%"  />
+
+
+---
+
+## Wirtschaft
+
+<img src="media/f5.png" style="width: 90%"  />
+
+
+---
+
+## Ursache für geringeres Einkommen: Fachwahl
+
+<img src="media/f7.png" style="width: 100%"  />
+
+
+---
+
+## Weitere Ursachen für geringeres Einkommen von Frauen:
+
+### - Zum Teil geringere Bezahlung in Berufen mit hohen Frauenanteil
+### - Geschlechtsspezifische Anteile bei der Kinderbetreuung und Teilzeitbeschäftigung von Frauen
+### - Diskriminierung?
+
+
+---
+
+## Rückbezug zu den Zielen der Bildungsforschung
+
+### - Systematische Beschreibung eines Forschungsgegenstandes
+### - Erklärung des Forschungsgegenstand
+### - Erklärungen sind Aussagen über kausale Ursache und Wirkungszusammenhänge
+### - Prognosen und Handlungsempfehlungen über den Forschungsgegenstand
+
+
+> Bildungsforschung muss sich nicht nur mit unterschiedlichen Stakeholdern beschäftigen, sondern auch mit dem System in dem Bildungsprozesse stattfinden.
+
+
+---
+
+# 3. Ausgestaltung des Bildungssystems
+
+
+
+## Beispiele für Ausgestaltungsaspekte:
+
+### - Übergang von der Grundschule in die weiterführende Schule
+### - Ausgestaltung des Gymnasiums (Stichwort: G8/G9)
+### - Ausgestaltung der Hochschule (Stichwort: Bologna)
+### - Anzahl an Schülerinnen und Schüler pro Klasse
+
+
+> Die EBF muss dabei die Mikro und Makroebene der Gesellschaft berücksichtigen, da Bildungsprozesse nicht nur auf der Individualebene stattfinden.
+
+---
+
+
+## Colemansche Badewanne
+
+
+<img src="media/coleman.png" style="width: 90%"  />
+
+
+---
+
+
+## Coleman am Beispiel der Klassengröße
+
+
+<img src="media/coleman2.png" style="width: 90%"  />
+
+
+---
+
+## Diese Perspektive hilft uns zudem, vor einem ökologischen Fehlschluss:
+
+> Bei einem ökologischen Fehlschluss wird auf Basis von Aggregatdaten (die Merkmale eines Kollektivs abbilden) unzulässigerweise auf Individualdaten geschlossen.
+
+### Vorsicht bei der Interpretation, wenn keine Individualdaten  vorliegen:
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(readr)
+library(tidyverse)
+
+pisa <- read_csv("C:/Users/gu99mywo/Dropbox/Privat/Homepage_ET/Apps/OLS_App/German/pisa_class_R.csv")
+
+pisa %>% 
+  select(location:Mathscore) %>% 
+  rename(country = location) %>% 
+  print(n=5)
+```
+
+
+
+---
+
+## Zwischenfazit
+
+### - Einbettung des Bildungssystems in gesamtgesellschaftliche Prozesse
+### - Ziele der Bildungsforschung treffen auf viele Themen der EBF gleichermaßen zu
+### - Ursache und Wirkung der Ausgestaltung des Bildungssystems auf ein Outcome Y
+### - Y: Noten der Schülerinnen, Kompetenzen, Stresslevel der Eltern, usw.
+
+
+---
+
+# 4. Messung von Bildung
+
+## Zertifikate
+
+- Messung durch: Dauer des Schulbesuchs in Jahre, höchster erreichter Abschluss, Noten
+
+- Vorteil: Leichte Zugänglichkeit für die Forschung
+
+### Problem: Vergleichbarkeit zwischen Ländern; 
+### Problem Validität: Was misst ein Abschluss?
+
+
+---
+
+
+## Kompetenzen
+
+- PISA, Pirls, Timms, etc.
+- Leistungstests zur Ermittlung von Kompetenzstufen
+
+
+### Probleme: Messung von latenten Eigenschaften? Validität?
+
+### Aber: Nachvollziehbare Testkonstruktion!
+
+
+---
+
+
+## Kompetenzen: Beispiel PISA
+
+<img src="media/pisa.png" style="width: 90%"  />
+
+
+---
+
+
+### Testkonstruktion: Anwendungsbeispiel (nach Sälzer 2016)
+
+<p style="font-size:120%;">“Bei der Testkonstruktion geht man davon aus dass aus manifesten Daten (z. B. den Antworten auf Testaufgaben) auf zugrunde liegende latente Variablen (z. B. die mathematische Kompetenz) einer Person geschlossen werden kann (Item Response Theorie).”</p> 
+
+<p style="font-size:120%;">“Ferner beruhen Testkontruktionen häfig auf dem Rasch-Modell. Dies basiert auf der Annahme, dass sich die Kompetenz einer Person anhand ihrer Fähigkeit sowie der Schwierigkeit der gestellten Testaufgaben eindimensional beschreiben lässt (Rasch 1960)”</p> 
+
+<p style="font-size:120%;">“Die einzelnen Fragen oder Items der Test Batterie sollen demnach Rasch konform sein: Eine besonders fähige (kompetente) Person muss schwierige Aufgaben folglich mit einer höheren Wahrscheinlichkeit lösen können als eine weniger fähige Person.” </p> 
+
+
+
+---
+
+
+
+## Testkonstruktion: Anwendungsbeispiel
+
+- Beispiel: 5 Kinder beantworten 5 zunehmend schwierigere Aufgaben
+- 0: Falsche Antwort; 1: Richtige Antwort
+
+
+```{r, highlight.output=c(2), echo=FALSE}
+df<-tribble(
+  ~Pupils, ~Name, ~aufgabe1, ~aufgabe2, ~aufgabe3, ~aufgabe4, ~aufgabe5,
+  1,	"Conny",   1, 1, 0, 0, 0,
+  2,	"Johnny",	 1, 0, 1, 0, 0,
+  3,	"Struppy", 1, 0, 1, 1, 0,
+  4,	"Tim",	   1, 1, 1, 1, 0,
+  5,	"Malou",	 1, 0, 0, 0, 1
+)
+
+df
+```
+
+### Gesucht wird die *Schwierigkeit der Items* und ein Instrument mit dem die Kompetenz möglichst gut *vorhergesagt* werden kann
+
+
+
+---
+
+
+
+## Item Schwierigkeit
+
+- Wie viele Punkte haben die SuS der möglichen Punkte des Frage Items erlangt?
+
+$$Schwierigkeit=\frac{Vergebene \enspace Punktzahl \enspace der \enspace Aufgabe}{Mögliche \enspace Gesamtpunktzahl  \enspace der  \enspace Aufgabe}*100$$
+
+
+```{r, highlight.output=c(1), echo=TRUE}
+
+schwierigkeit <- function(aufgabe, n, p){
+  schwierigkeit <- sum(aufgabe)/(n*p)*100 #<<
+  return(schwierigkeit)
+}
+
+schwierigkeit(df$aufgabe1, 5, 1)
+```
+
+> 100% der Kinder haben die Frage 1 also richtig beantwortet. Eine sehr leichte Aufgabe die nicht dazu geeignet ist, zwischen hoher und niedriger Kompetenz zu differenzieren.
+
+
+---
+
+
+## Item Trennschärfe
+
+- Korrelation zwischen der Aufgabe (der einzelnen Items) und dem Test Score (Summe aller Punkte): Wie gut kann eine einzelne Frage den Test Score vorhersagen?
+
+```{r, echo=FALSE}
+
+df <-df %>% 
+  select(aufgabe1:aufgabe5)
+
+df$testscore <- rowSums(df) #<<
+df
+```
+
+
+```{r, echo=TRUE}
+#>Korrelation zwischen Aufgabe 3 und dem Testscore
+cor(df$aufgabe3, df$testscore) #<<
+```
+
+
+
+
+---
+
+
+## Praxisbeispiel mit hoher Trennschärfe
+
+```{r, echo=FALSE, warning=FALSE, fig.width=10}
+
+library(readxl)
+Korrektur <- read_excel("C:/Users/gu99mywo/Dropbox/Lehre/Bildung/Vorlesung Bildung EF/SoSe2020/Klausur/Korrektur.xlsx")
+library(ggbeeswarm)
+
+ggplot(Korrektur, aes(A21, Summe, color = Bestanden)) + 
+  geom_quasirandom(size = 3)+
+  theme_minimal(base_size = 18)+
+  scale_color_viridis(discrete = TRUE, name = "EBF Klausur", option = "viridis")+
+  labs(x = "Aufgabe 21",                
+       y = "Punkte in der Klausur")+
+  guides(color = guide_legend(override.aes = list(size = 4),
+                              reverse=TRUE))
+
+
+```
+
+
+---
+
+## Praxisbeispiel mit niedriger Trennschärfe
+
+```{r, echo=FALSE, warning=FALSE, fig.width=10}
+
+library(readxl)
+Korrektur <- read_excel("C:/Users/gu99mywo/Dropbox/Lehre/Bildung/Vorlesung Bildung EF/SoSe2020/Klausur/Korrektur.xlsx")
+library(ggbeeswarm)
+
+ggplot(Korrektur, aes(A2, Summe, color = Bestanden)) + 
+  geom_quasirandom(size = 3)+
+  theme_minimal(base_size = 18)+
+  scale_color_viridis(discrete = TRUE, name = "EBF Klausur", option = "viridis")+
+  labs(x = "Aufgabe 2",                
+       y = "Punkte in der Klausur")+
+  guides(color = guide_legend(override.aes = list(size = 4),
+                              reverse=TRUE))
+
+
+```
+
+
+
+
+
+
+---
+
+## Zertifikat- und Kompetenzarmut 
+
+<img src="media/pisa2.png" style="width: 90%"  />
+
+
+
+> Merke: Es gibt nur eine schwache Korrelation zwischen Zertifikaten und Kompetenzen, d.h. beide Aspekte messen unterschiedliche Konstrukte.
+
+
+
+
+
+
+
+---
+
+# Zusammenfassung
+
+### - Bildung ist mit mehreren positiven Eigenschaften verbunden
+### - Ziele der EBF: Beschreibung, Erklärung, Prognose
+### -  Mikro und Makroebene der Bildungsforschung
+### - Zertifikate vs. Kompetenzmessung
+
+
+
+
