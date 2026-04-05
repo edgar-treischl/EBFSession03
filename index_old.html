@@ -1,46 +1,54 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="utf-8">
-  <title>EBF: Sitzung 3</title>
-  <meta name="description" content="EBF: Sitzung 2">
-  <meta name="author" content="Dr. Edgar Treischl">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<title>02 EBF Zentrale Befunde</title>
+
+		<meta name="description" content="Empirische Bildungsforschung">
+		<meta name="author" content="Edgar Treischl">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/tomorrow.css">
 
 
-  <style>
-    .text-color { color: #8D1429; }
-    section h4.text-color {color: #8D1429;}
-    .correct-answer { color: #006d2c; }
-    .vertical-video-box {
-      position: absolute;
-      width: 50%;
-      right: 0;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 5px 25px rgba(0,0,0,0.2);
-      background-color: #fff;
-      color: #2b8cbe;
-      padding: 20px;
-      font-size: 20px;
-      text-align: left;
-    }
-    .footer { 
-      position: fixed;     
-      text-align: center;    
-      bottom: -600px; 
-      width: 100%;
-    }
-    img.responsive { width: 60%; height: auto; }
-    img.medium { width: 75%; height: auto; }
-  </style>
-</head>
-<body oncontextmenu="return false;">
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body>
+		<body oncontextmenu="return false;">
+			<style type ="text/css" >
+				.footer{ 
+					position: fixed;     
+					text-align: center;    
+					bottom: -600px; 
+					width: 100%;
+				}  
+			 </style>
 		<div class="reveal">
 			<div class="slides">
-				<section data-background-image="media/FAU-Siegel22.png">
+				<section data-background-image="FAU-Siegel22.png">
 					<h2>Vorlesung: Empirische Bildungsforschung</h2>
 					<h4><font color="#8D1429">Sitzung 3: Zentrale Befunde</font> </h4>
 					<p>
@@ -614,6 +622,37 @@
 			</div>
 		</div>
 
-  <script type="module" src="/main.js"></script>
-</body>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				progress: true,
+				slideNumber: true,
+				autoPlayMedia: null,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				hash: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js' },
+					{ src: 'node_modules/reveal.js-menu/menu.js'},
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				],
+				menu: {
+					side: 'left',
+					titleSelector: 'h1, h2',
+					hideMissingTitles: true,
+					custom: [
+					{title: 'Sessions', icon: '<i class="fa fa-link">', src: 'links.html'},
+					{title: 'Shortcuts', icon: '<i class="fa fa-keyboard">', 
+						content: '<p>Alt gedrückt halten für Zoom + Mausklick auf die entsprechende Stelle, f für Vollbild und Esc für das Verlassen des Vollbildmodus, ESC für eine Übersicht.</p>' }
+					]
+				},
+			});
+		</script>
+	</body>
 </html>
