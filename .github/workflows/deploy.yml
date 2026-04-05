@@ -27,6 +27,9 @@ jobs:
       - run: yarn install
       - run: yarn build
 
+      - name: Debug dist/index.html head
+        run: head -50 dist/index.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
